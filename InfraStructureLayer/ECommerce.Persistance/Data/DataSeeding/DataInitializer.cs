@@ -13,11 +13,11 @@ namespace ECommerce.Persistance.Data.DataInitializer
 {
     public class DataInitializer(StoreDbContext dbContext) : IDataInitializer
     {
-        public void Initialize()
+        public async Task InitializeAsync()
         {
-            var hasProducts = dbContext.Products.Any();
-            var hasProductBrands = dbContext.ProductBrands.Any();
-            var hasProductTypes = dbContext.ProductTypes.Any();
+            var hasProducts = await dbContext.Products.AnyAsync();
+            var hasProductBrands = await dbContext.ProductBrands.AnyAsync();
+            var hasProductTypes = await dbContext.ProductTypes.AnyAsync();
 
             if (hasProducts && hasProductBrands && hasProductTypes)
                 return;
@@ -25,17 +25,17 @@ namespace ECommerce.Persistance.Data.DataInitializer
             try
             {
                 if (!hasProductBrands)
-                    SeedData<ProductBrand, int>("brands.json", dbContext.ProductBrands);
+                  await  SeedData<ProductBrand, int>("brands.json", dbContext.ProductBrands);
 
                 if (!hasProductTypes)
-                    SeedData<ProductType, int>("types.json", dbContext.ProductTypes);
+                   await SeedData<ProductType, int>("types.json", dbContext.ProductTypes);
 
-                dbContext.SaveChanges();
+               await dbContext.SaveChangesAsync();
 
                 if (!hasProducts)
                 {
-                    SeedData<Product, int>("products.json", dbContext.Products);
-                    dbContext.SaveChanges();
+                   await SeedData<Product, int>("products.json", dbContext.Products);
+                   await dbContext.SaveChangesAsync();
                 }
             }
             catch (Exception ex)
@@ -46,7 +46,7 @@ namespace ECommerce.Persistance.Data.DataInitializer
 
         }
 
-        private void SeedData<T, TKey>(string fileName, DbSet<T> dbSet) where T : BaseEntity<TKey>
+        private async Task SeedData<T, TKey>(string fileName, DbSet<T> dbSet) where T : BaseEntity<TKey>
         { 
             var filePath = @"..\..\ECommerce\InfraStructureLayer\ECommerce.Persistance\Data\DataSeeding\JsonFiles\" + fileName;
 
@@ -56,13 +56,13 @@ namespace ECommerce.Persistance.Data.DataInitializer
             {
 
                 var dataStream = File.OpenRead(filePath);
-                var data = JsonSerializer.Deserialize<List<T>>(dataStream, new JsonSerializerOptions
+                var data = await JsonSerializer.DeserializeAsync<List<T>>(dataStream, new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
                 });
 
                 if (data is not null)
-                    dbSet.AddRange(data);
+                   await dbSet.AddRangeAsync(data);
             }
             catch (Exception ex)
             {

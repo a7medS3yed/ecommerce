@@ -1,4 +1,5 @@
-﻿using ECommerce.Domain.Contracts;
+﻿using System.Threading.Tasks;
+using ECommerce.Domain.Contracts;
 using ECommerce.Persistance.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,24 +7,25 @@ namespace ECommerce.Api.Extentions
 {
     public static class WebApplicationRegister
     {
-        public static WebApplication MigrateDatabase(this WebApplication app)
+        public static async Task<WebApplication> MigrateDatabase(this WebApplication app)
         {
-            using var scope = app.Services.CreateScope();
+            await using var scope = app.Services.CreateAsyncScope();
 
             var dbContext = scope.ServiceProvider.GetRequiredService<StoreDbContext>();
-            if (dbContext.Database.GetPendingMigrations().Any())
-                dbContext.Database.Migrate();
+
+            var pendingMigrations = await dbContext.Database.GetPendingMigrationsAsync();
+            if (pendingMigrations.Any())
+               await dbContext.Database.MigrateAsync();
 
             return app;
         }
 
-        public static WebApplication SeedData(this WebApplication app)
+        public static async Task<WebApplication> SeedData(this WebApplication app)
         {
-            using var scope = app.Services.CreateScope();
+           await using var scope = app.Services.CreateAsyncScope();
            
             var dataInitializer = scope.ServiceProvider.GetRequiredService<IDataInitializer>();
-            dataInitializer.Initialize();
-
+            await dataInitializer.InitializeAsync();
             return app;
         }
     }

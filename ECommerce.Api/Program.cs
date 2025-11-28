@@ -1,4 +1,5 @@
 
+using System.Threading.Tasks;
 using ECommerce.Api.Extentions;
 using ECommerce.Domain.Contracts;
 using ECommerce.Persistance;
@@ -10,7 +11,7 @@ namespace ECommerce.Api
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -26,9 +27,9 @@ namespace ECommerce.Api
 
             var app = builder.Build();
 
-            app.MigrateDatabase();  
+           await app.MigrateDatabase();  
 
-            app.SeedData();
+           await app.SeedData();
 
             #region Configure the HTTP request pipeline.
 
@@ -46,7 +47,7 @@ namespace ECommerce.Api
 
             app.MapControllers();
 
-            app.Run(); 
+            await app.RunAsync(); 
             #endregion
         }
     }
