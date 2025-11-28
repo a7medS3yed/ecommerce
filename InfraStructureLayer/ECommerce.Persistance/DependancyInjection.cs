@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ECommerce.Domain.Contracts;
 using ECommerce.Persistance.Data;
+using ECommerce.Persistance.Data.DataInitializer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,7 +21,10 @@ namespace ECommerce.Persistance
             services.AddDbContext<StoreDbContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddScoped<IDataInitializer, DataInitializer>();
+
             return services;
         }
+
     }
 }

@@ -15,10 +15,10 @@ namespace ECommerce.Domain.Entities.ProductModule
 
         #region RelationShip
 
-        public int ProductTypeId { get; set; }
-        public ProductType ProductType { get; set; } = default!;
-        public int ProductBrandId { get; set; }
-        public ProductBrand ProductBrand { get; set; } = default!;
+        public int TypeId { get; set; }
+        public ProductType ProductType { get; set; } = null!;
+        public int BrandId { get; set; }
+        public ProductBrand ProductBrand { get; set; } = null!;
 
         #endregion
 

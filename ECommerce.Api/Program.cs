@@ -1,5 +1,10 @@
 
+using ECommerce.Api.Extentions;
+using ECommerce.Domain.Contracts;
 using ECommerce.Persistance;
+using ECommerce.Persistance.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Writers;
 
 namespace ECommerce.Api
 {
@@ -19,8 +24,13 @@ namespace ECommerce.Api
             builder.Services.AddPersistanceServices(builder.Configuration);
             #endregion
 
-            #region Configure the HTTP request pipeline.
             var app = builder.Build();
+
+            app.MigrateDatabase();  
+
+            app.SeedData();
+
+            #region Configure the HTTP request pipeline.
 
 
             if (app.Environment.IsDevelopment())

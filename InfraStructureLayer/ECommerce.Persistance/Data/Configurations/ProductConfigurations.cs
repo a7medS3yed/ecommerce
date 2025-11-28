@@ -27,11 +27,11 @@ namespace ECommerce.Persistance.Data.Configurations
 
             builder.HasOne(P => P.ProductBrand)
                 .WithMany()
-                .HasForeignKey(P => P.ProductBrandId);
+                .HasForeignKey(P => P.BrandId);
 
             builder.HasOne(P => P.ProductType)
                 .WithMany()
-                .HasForeignKey(P => P.ProductTypeId);
+                .HasForeignKey(P => P.TypeId);
         }
     }
 }
