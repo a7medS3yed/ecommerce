@@ -22,6 +22,7 @@ namespace ECommerce.Persistance
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<IDataInitializer, DataInitializer>();
+            services.AddScoped<IUnitOfWork, UnitOfWork.UnitOfWork>();
 
             return services;
         }
