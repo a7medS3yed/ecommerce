@@ -11,4 +11,8 @@
     <ProjectReference Include="..\ECommerce.Service.Abstraction\ECommerce.Service.Abstraction.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="15.1.0" />
+  </ItemGroup>
+
 </Project>

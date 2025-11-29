@@ -4,6 +4,7 @@ using ECommerce.Api.Extentions;
 using ECommerce.Domain.Contracts;
 using ECommerce.Persistance;
 using ECommerce.Persistance.Data;
+using ECommerce.Service;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Writers;
 
@@ -23,6 +24,7 @@ namespace ECommerce.Api
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddPersistanceServices(builder.Configuration);
+            builder.Services.AddServiceLayer();
             #endregion
 
             var app = builder.Build();
