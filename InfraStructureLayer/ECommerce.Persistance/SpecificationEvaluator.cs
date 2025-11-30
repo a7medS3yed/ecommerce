@@ -20,6 +20,10 @@ namespace ECommerce.Persistance
 
             if (specification is not null)
             {
+                if (specification.Criteria is not null)
+                {
+                    query = query.Where(specification.Criteria);
+                }
                 if (specification.IncludeExpressions is not null && specification.IncludeExpressions.Any())
                 {
                     query = specification.IncludeExpressions

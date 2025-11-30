@@ -24,6 +24,12 @@ namespace ECommerce.Persistance.Repositories
         public async Task AddAsync(TModel model) => await dbContext.Set<TModel>().AddAsync(model);
         public void DeleteAsync(TModel model) => dbContext.Set<TModel>().Remove(model);
         public void UpdateAsync(TModel model) => dbContext.Set<TModel>().Update(model);
-        
+
+        public Task<TModel?> GetByIdAsync(ISpecification<TModel, TKey> specification)
+        {
+            var query = SpecificationEvaluator.CreateQuery(dbContext.Set<TModel>(), specification);
+
+            return query.FirstOrDefaultAsync();
+        }
     }
 }
