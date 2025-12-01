@@ -20,9 +20,22 @@ namespace ECommerce.Service.Specification
 
         public Expression<Func<TEntity, bool>>? Criteria { get; }
 
+        public Expression<Func<TEntity, object>> OrderBy { private set; get; }
+
+        public Expression<Func<TEntity, object>> OrderByDesc { private set; get; }
+
         protected void AddIncludeExpression(Expression<Func<TEntity, object>> includeExpression)
         {
             IncludeExpressions.Add(includeExpression);
+        }
+
+        protected void AddOrderBy(Expression<Func<TEntity, object>> orderByExpression)
+        {
+            OrderBy = orderByExpression;
+        }
+        protected void AddOrderByDesc(Expression<Func<TEntity, object>> orderByDescExpression)
+        {
+            OrderByDesc = orderByDescExpression;
         }
     }
 }
