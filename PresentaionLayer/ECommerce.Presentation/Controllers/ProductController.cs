@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ECommerce.Service.Abstraction.Products;
+using ECommerce.Shared;
 using ECommerce.Shared.Dtos.Products;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,9 +15,10 @@ namespace ECommerce.Presentation.Controllers
     public class ProductController(IProductService productService) : ControllerBase
     {
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductDto>>> GetAllProducts(int? brandId, int? typeId)
+        public async Task<ActionResult<IEnumerable<ProductDto>>> GetAllProducts(
+           [FromQuery] ProductQueryParam queryParam)
         {
-            var products = await productService.GetAllProducts(brandId, typeId);
+            var products = await productService.GetAllProducts(queryParam);
             return Ok(products);
         }
 
