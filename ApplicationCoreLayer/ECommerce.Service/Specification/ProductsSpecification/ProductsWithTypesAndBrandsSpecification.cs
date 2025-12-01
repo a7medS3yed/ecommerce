@@ -9,7 +9,10 @@ namespace ECommerce.Service.Specification.ProductsSpecification
 {
     internal class ProductsWithTypesAndBrandsSpecification : BaseSpecification<Product, int>
     {
-        public ProductsWithTypesAndBrandsSpecification() :base(null)
+       
+        public ProductsWithTypesAndBrandsSpecification(int? brandId, int? typeId)
+            : base(P => (!brandId.HasValue || P.BrandId == brandId.Value)
+            && (!typeId.HasValue || P.TypeId == typeId.Value))
         {
             AddIncludeExpression(product => product.ProductType);
             AddIncludeExpression(product => product.ProductBrand);

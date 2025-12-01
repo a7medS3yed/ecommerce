@@ -20,9 +20,9 @@ namespace ECommerce.Service.Products
             return mapper.Map<IEnumerable<BrandDto>>(brands);
         }
 
-        public async Task<IEnumerable<ProductDto>> GetAllProducts()
+        public async Task<IEnumerable<ProductDto>> GetAllProducts(int? brandId, int? typeId)
         {
-            var spec = new ProductsWithTypesAndBrandsSpecification();
+            var spec = new ProductsWithTypesAndBrandsSpecification(brandId, typeId);
 
             var products = await unitOfWork.GenaricRepository<Product, int>().GetAllAsync(spec);
 

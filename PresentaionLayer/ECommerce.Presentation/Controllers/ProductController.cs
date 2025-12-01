@@ -14,9 +14,9 @@ namespace ECommerce.Presentation.Controllers
     public class ProductController(IProductService productService) : ControllerBase
     {
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductDto>>> GetAllProducts()
+        public async Task<ActionResult<IEnumerable<ProductDto>>> GetAllProducts(int? brandId, int? typeId)
         {
-            var products = await productService.GetAllProducts();
+            var products = await productService.GetAllProducts(brandId, typeId);
             return Ok(products);
         }
 
