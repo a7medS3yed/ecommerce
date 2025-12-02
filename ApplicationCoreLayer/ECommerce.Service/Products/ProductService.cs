@@ -10,6 +10,7 @@ using ECommerce.Service.Abstraction.Products;
 using ECommerce.Service.Specification.ProductsSpecification;
 using ECommerce.Shared;
 using ECommerce.Shared.Dtos.Products;
+using Microsoft.VisualBasic;
 
 namespace ECommerce.Service.Products
 {
@@ -21,13 +22,26 @@ namespace ECommerce.Service.Products
             return mapper.Map<IEnumerable<BrandDto>>(brands);
         }
 
-        public async Task<IEnumerable<ProductDto>> GetAllProducts(ProductQueryParam queryParam)
+        public async Task<PaginationResult<ProductDto>> GetAllProducts(ProductQueryParam queryParam)
         {
             var spec = new ProductsWithTypesAndBrandsSpecification(queryParam);
 
             var products = await unitOfWork.GenaricRepository<Product, int>().GetAllAsync(spec);
 
-            return mapper.Map<IEnumerable<ProductDto>>(products);
+            var productToReturn =  mapper.Map<IEnumerable<ProductDto>>(products);
+
+            var countSpec = new ProductWithCountSpecification(queryParam);
+
+            var totalItems = await unitOfWork.GenaricRepository<Product, int>().CountAsync(countSpec);
+
+            var countToReturn = productToReturn.Count();
+            return new PaginationResult<ProductDto>
+            {
+                PageIndex = queryParam.PageIndex,
+                PageSize = countToReturn,
+                TotalItems = totalItems,
+                Data = productToReturn
+            };
         }
 
         public async Task<IEnumerable<TypeDto>> GetAllTypes()

@@ -31,5 +31,12 @@ namespace ECommerce.Persistance.Repositories
 
             return query.FirstOrDefaultAsync();
         }
+
+        public Task<int> CountAsync(ISpecification<TModel, TKey> specification)
+        {
+            return SpecificationEvaluator
+                .CreateQuery(dbContext.Set<TModel>(), specification)
+                .CountAsync();
+        }
     }
 }

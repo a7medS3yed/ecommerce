@@ -16,19 +16,23 @@ namespace ECommerce.Service.Specification
         {
             Criteria = criteria;
         }
+        #region Including
         public ICollection<Expression<Func<TEntity, object>>> IncludeExpressions { get; } = [];
-
-        public Expression<Func<TEntity, bool>>? Criteria { get; }
-
-        public Expression<Func<TEntity, object>> OrderBy { private set; get; }
-
-        public Expression<Func<TEntity, object>> OrderByDesc { private set; get; }
-
         protected void AddIncludeExpression(Expression<Func<TEntity, object>> includeExpression)
         {
             IncludeExpressions.Add(includeExpression);
         }
 
+        #endregion
+
+        #region Filteration
+        public Expression<Func<TEntity, bool>>? Criteria { get; }
+        #endregion
+
+        #region Ordering
+        public Expression<Func<TEntity, object>> OrderBy { private set; get; }
+
+        public Expression<Func<TEntity, object>> OrderByDesc { private set; get; } 
         protected void AddOrderBy(Expression<Func<TEntity, object>> orderByExpression)
         {
             OrderBy = orderByExpression;
@@ -37,5 +41,23 @@ namespace ECommerce.Service.Specification
         {
             OrderByDesc = orderByDescExpression;
         }
+        #endregion
+
+        #region Pagination
+        public int Skip { private set; get; }
+
+        public int Take { private set; get; }
+
+        public bool IsPagingEnabled { private set; get; }
+
+        protected void ApplyPaging(int pageSize, int pageIndex)
+        {
+            IsPagingEnabled = true;
+            Take = pageSize;
+            Skip = (pageIndex - 1) * pageSize;
+        }
+        #endregion
+
+
     }
 }

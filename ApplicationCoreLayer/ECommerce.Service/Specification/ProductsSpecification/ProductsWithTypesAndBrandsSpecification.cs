@@ -38,6 +38,8 @@ namespace ECommerce.Service.Specification.ProductsSpecification
                     AddOrderBy(product => product.Id);
                     break;
             }
+
+            ApplyPaging(queryParam.PageSize, queryParam.PageIndex);
         }
 
         public ProductsWithTypesAndBrandsSpecification(int id) : base(x => x.Id == id)
