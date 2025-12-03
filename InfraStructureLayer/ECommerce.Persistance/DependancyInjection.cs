@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ECommerce.Domain.Contracts;
 using ECommerce.Persistance.Data;
 using ECommerce.Persistance.Data.DataInitializer;
+using ECommerce.Persistance.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,6 +30,8 @@ namespace ECommerce.Persistance
             {
                return ConnectionMultiplexer.Connect(configuration.GetConnectionString("RedisConnection")!);
             });
+
+            services.AddScoped<IBasketRepository, BasketRepository>();
 
             return services;
         }

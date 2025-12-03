@@ -35,9 +35,9 @@ namespace ECommerce.Persistance.Repositories
             }
         }
 
-        public async Task DeleteBasketAsync(string basketId)
+        public async Task<bool> DeleteBasketAsync(string basketId)
         {
-            await _database.KeyDeleteAsync(basketId);
+           return await _database.KeyDeleteAsync(basketId);
         }
 
         public async Task<CustomerBasket?> GetBasketAsync(string basketId)
