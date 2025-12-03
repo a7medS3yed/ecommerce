@@ -9,6 +9,7 @@ using ECommerce.Persistance.Data.DataInitializer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using StackExchange.Redis;
 
 namespace ECommerce.Persistance
 {
@@ -23,6 +24,11 @@ namespace ECommerce.Persistance
 
             services.AddScoped<IDataInitializer, DataInitializer>();
             services.AddScoped<IUnitOfWork, UnitOfWork.UnitOfWork>();
+
+            services.AddSingleton<IConnectionMultiplexer>(X =>
+            {
+               return ConnectionMultiplexer.Connect(configuration.GetConnectionString("RedisConnection")!);
+            });
 
             return services;
         }
