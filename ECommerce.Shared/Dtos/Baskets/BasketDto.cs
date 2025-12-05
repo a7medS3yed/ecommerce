@@ -8,7 +8,7 @@ namespace ECommerce.Shared.Dtos.Baskets
 {
     public class BasketDto
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public ICollection<BasketItemDto> Items { get; set; } = [];
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ECommerce.Presentation.Attributes;
 using ECommerce.Service.Abstraction.Products;
 using ECommerce.Shared;
 using ECommerce.Shared.Dtos.Products;
@@ -14,7 +15,9 @@ namespace ECommerce.Presentation.Controllers
     [Route("api/[controller]")]
     public class ProductController(IProductService productService) : ControllerBase
     {
+        
         [HttpGet]
+        [RedisCahce]
         public async Task<ActionResult<PaginationResult<ProductDto>>> GetAllProducts(
            [FromQuery] ProductQueryParam queryParam)
         {

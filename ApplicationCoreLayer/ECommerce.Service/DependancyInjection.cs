@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ECommerce.Service.Abstraction.Basket;
+using ECommerce.Service.Abstraction.Caches;
 using ECommerce.Service.Abstraction.Products;
+using ECommerce.Service.Baskets;
+using ECommerce.Service.Caches;
 using ECommerce.Service.Products;
 using ECommerce.Service.Profiles;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,6 +25,8 @@ namespace ECommerce.Service
 
             // Add Service Layer Dependencies
             services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IBasketService, BasketService>();
+            services.AddScoped<ICacheService, CacheService>();
             return services;
         }
     }

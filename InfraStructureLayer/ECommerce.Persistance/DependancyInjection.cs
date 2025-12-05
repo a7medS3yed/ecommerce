@@ -32,6 +32,7 @@ namespace ECommerce.Persistance
             });
 
             services.AddScoped<IBasketRepository, BasketRepository>();
+            services.AddScoped<ICacheRepository, CacheRepository>();
 
             return services;
         }
