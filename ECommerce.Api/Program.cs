@@ -1,5 +1,6 @@
 
 using System.Threading.Tasks;
+using ECommerce.Api.CustomMiddleware;
 using ECommerce.Api.Extentions;
 using ECommerce.Domain.Contracts;
 using ECommerce.Persistance;
@@ -35,6 +36,7 @@ namespace ECommerce.Api
 
             #region Configure the HTTP request pipeline.
 
+            app.UseMiddleware<ExceptionHandler>();
 
             if (app.Environment.IsDevelopment())
             {

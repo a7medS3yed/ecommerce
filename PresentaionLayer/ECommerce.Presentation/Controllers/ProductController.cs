@@ -30,10 +30,6 @@ namespace ECommerce.Presentation.Controllers
         public async Task<ActionResult<ProductDto?>> GetProductById(int id)
         {
             var product = await productService.GetProductById(id);
-            if (product == null)
-            {
-                return NotFound();
-            }
             return Ok(product);
         }
 
