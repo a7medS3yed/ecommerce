@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using ECommerce.Domain.Entities.BasketModule;
 using ECommerce.Domain.Entities.ProductModule;
+using ECommerce.Shared.Dtos.Baskets;
 using ECommerce.Shared.Dtos.Products;
 
 namespace ECommerce.Service.Profiles
@@ -23,6 +25,18 @@ namespace ECommerce.Service.Profiles
             CreateMap<ProductBrand, BrandDto>();
 
             CreateMap<ProductType, TypeDto>();
+
+            #endregion
+
+            #region Mapping Basket Module
+
+            // BasketDto → CustomerBasket
+            CreateMap<BasketDto, CustomerBasket>()
+                .ForMember(dest => dest.BasketItems, opt => opt.MapFrom(src => src.Items)).ReverseMap();
+
+            // BasketItemDto → BasketItem
+            CreateMap<BasketItemDto, BasketItem>()
+                .ReverseMap();
 
             #endregion
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ECommerce.Presentation.Attributes;
 using ECommerce.Service.Abstraction.Products;
 using ECommerce.Shared;
 using ECommerce.Shared.Dtos.Products;
@@ -10,11 +11,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.Presentation.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class ProductController(IProductService productService) : ControllerBase
+   
+    public class ProductController(IProductService productService) : ApiBaseController
     {
+        
         [HttpGet]
+        [RedisCahce]
         public async Task<ActionResult<PaginationResult<ProductDto>>> GetAllProducts(
            [FromQuery] ProductQueryParam queryParam)
         {
@@ -24,14 +26,10 @@ namespace ECommerce.Presentation.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<ActionResult<ProductDto?>> GetProductById(int id)
+        public async Task<ActionResult<ProductDto>> GetProductById(int id)
         {
             var product = await productService.GetProductById(id);
-            if (product == null)
-            {
-                return NotFound();
-            }
-            return Ok(product);
+            return HandleProblem(product);
         }
 
         [HttpGet]
