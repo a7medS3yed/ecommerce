@@ -36,9 +36,11 @@ namespace ECommerce.Api
 
             var app = builder.Build();
 
-           await app.MigrateDatabase();  
+           await app.MigrateDatabase();
+            await app.MigrateIdentityDatabase();
 
            await app.SeedData();
+           await app.SeedIdentityData();
 
             #region Configure the HTTP request pipeline.
 
