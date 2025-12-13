@@ -12,5 +12,7 @@ namespace ECommerce.Service.Abstraction.Identity
     {
         Task<Result<UserDto>> RegisterAsync(UserRegisterDto registerDto);
         Task<Result<UserDto>> LoginAsync(UserLoginDto loginDto);
+        Task<bool> CheckEmailAsync(string email);
+        Task<Result<UserDto>> GetCurrentUserAsync(string email);
     }
 }

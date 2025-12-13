@@ -13,13 +13,16 @@ using ECommerce.Service.Caches;
 using ECommerce.Service.Identity;
 using ECommerce.Service.Products;
 using ECommerce.Service.Profiles;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 
 namespace ECommerce.Service
 {
     public static class DependancyInjection
     {
-        public static IServiceCollection AddServiceLayer(this IServiceCollection services)
+        public static IServiceCollection AddServiceLayer(this IServiceCollection services, IConfiguration configuration)
         {
             // Add AutoMapper Profiles
             services.AddAutoMapper(X => X.AddProfile(typeof(MappingProfile)));
@@ -32,7 +35,30 @@ namespace ECommerce.Service
             services.AddScoped<ICacheService, CacheService>();
             services.AddScoped<IAuthentication, Authentication>();
 
-           
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+               {
+                    options.SaveToken = true;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+
+                        ValidIssuer = configuration["JwtOptions:Issuer"],
+                        ValidAudience = configuration["JwtOptions:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(
+                            Encoding.UTF8.GetBytes(configuration["JwtOptions:Key"]!)
+                        ),
+                        ClockSkew = TimeSpan.Zero
+                    };
+               });
+
 
             return services;
         }
