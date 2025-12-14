@@ -5,8 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using ECommerce.Domain.Entities.BasketModule;
+using ECommerce.Domain.Entities.OrderModule;
 using ECommerce.Domain.Entities.ProductModule;
 using ECommerce.Shared.Dtos.Baskets;
+using ECommerce.Shared.Dtos.Orders;
 using ECommerce.Shared.Dtos.Products;
 
 namespace ECommerce.Service.Profiles
@@ -37,6 +39,33 @@ namespace ECommerce.Service.Profiles
             // BasketItemDto → BasketItem
             CreateMap<BasketItemDto, BasketItem>()
                 .ReverseMap();
+
+            #endregion
+
+            #region Mapping Order Module
+
+            CreateMap<ShippingAddressDto, ShippingAddress>()
+                .ReverseMap();
+
+            CreateMap<Order, OrderToReturnDto>()
+            .ForMember(d => d.BuyerEmail,
+                o => o.MapFrom(s => s.UserEmail))
+            .ForMember(d => d.ShipToAddress,
+                o => o.MapFrom(s => s.ShippingAddress))
+            .ForMember(d => d.DeliveryMethod,
+                o => o.MapFrom(s => s.DeliveryMethod.ShortName))
+            .ForMember(d => d.OrderStatus,
+                o => o.MapFrom(s => s.Status.ToString()))
+            .ForMember(d => d.Total,
+                o => o.MapFrom(s => s.GetTotal()));
+
+            CreateMap<ItemOrder, OrderItemDto>()
+                .ForMember(d => d.ProductName,
+                    o => o.MapFrom(s => s.Product.ProductName))
+                .ForMember(d => d.PictureUrl,
+                    o => o.MapFrom<OrderPictureResolver>());
+
+            CreateMap<DeliveryMethod, DeliveryMethodDto>();
 
             #endregion
         }
