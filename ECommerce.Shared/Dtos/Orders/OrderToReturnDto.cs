@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,11 +10,11 @@ namespace ECommerce.Shared.Dtos.Orders
     {
         public Guid Id { get; set; }
         public string BuyerEmail { get; set; }
+        public DateTimeOffset OrderDate { get; set; }
         public ICollection<OrderItemDto> Items { get; set; }
+        public string OrderStatus { get; set; }
         public ShippingAddressDto ShipToAddress { get; set; }
         public string DeliveryMethod { get; set; }
-        public string OrderStatus { get; set; }
-        public DateTimeOffset OrderDate { get; set; }
         public decimal SubTotal { get; set; }
         public decimal Total { get; set; }
     }

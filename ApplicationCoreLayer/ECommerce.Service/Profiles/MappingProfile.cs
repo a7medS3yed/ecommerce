@@ -48,16 +48,10 @@ namespace ECommerce.Service.Profiles
                 .ReverseMap();
 
             CreateMap<Order, OrderToReturnDto>()
-            .ForMember(d => d.BuyerEmail,
-                o => o.MapFrom(s => s.UserEmail))
-            .ForMember(d => d.ShipToAddress,
-                o => o.MapFrom(s => s.ShippingAddress))
-            .ForMember(d => d.DeliveryMethod,
-                o => o.MapFrom(s => s.DeliveryMethod.ShortName))
-            .ForMember(d => d.OrderStatus,
-                o => o.MapFrom(s => s.Status.ToString()))
-            .ForMember(d => d.Total,
-                o => o.MapFrom(s => s.GetTotal()));
+                .ForMember(d => d.BuyerEmail, o => o.MapFrom(s => s.UserEmail))
+                .ForMember(d => d.OrderStatus, o => o.MapFrom(s => s.Status.ToString()))
+                .ForMember(d => d.ShipToAddress, o => o.MapFrom(s => s.ShippingAddress))
+                .ForMember(d => d.DeliveryMethod, o => o.MapFrom(s => s.DeliveryMethod.ShortName));
 
             CreateMap<ItemOrder, OrderItemDto>()
                 .ForMember(d => d.ProductName,

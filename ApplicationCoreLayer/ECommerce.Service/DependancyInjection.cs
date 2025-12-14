@@ -29,6 +29,7 @@ namespace ECommerce.Service
             // Add AutoMapper Profiles
             services.AddAutoMapper(X => X.AddProfile(typeof(MappingProfile)));
             services.AddTransient<ProductPictureUrlResolver>();
+            services.AddTransient<OrderPictureResolver>();
 
 
             // Add Service Layer Dependencies
