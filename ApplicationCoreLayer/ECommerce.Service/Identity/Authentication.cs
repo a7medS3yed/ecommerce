@@ -5,17 +5,22 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using ECommerce.Domain.Entities.IdentityModule;
 using ECommerce.Service.Abstraction.Identity;
 using ECommerce.Shared.CommenResponse;
 using ECommerce.Shared.Dtos.Identitys;
+using ECommerce.Shared.Dtos.Orders;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 namespace ECommerce.Service.Identity
 {
-    internal class Authentication(UserManager<ApplicationUser> userManager, IConfiguration configuration) : IAuthentication
+    internal class Authentication(UserManager<ApplicationUser> userManager,
+        IConfiguration configuration,
+        IMapper mapper) : IAuthentication
     {
         public async Task<bool> CheckEmailAsync(string email)
         {
@@ -37,6 +42,20 @@ namespace ECommerce.Service.Identity
                 Email = user.Email!,
                 Token = await GenerateToken(user)
             };
+        }
+
+        public async Task<Result<ShippingAddressDto>> GetUserAddressAsync(string email)
+        {
+            var user = await userManager.Users.Include(X => X.Address)
+                .FirstOrDefaultAsync(X => X.Email == email);
+
+            if(user is null)
+                return Error.NotFound("User.NotFount", $"This User with This Email: {email} is not found");
+
+            if (user.Address is null)
+                return Error.NotFound("User.Address.NotFound", "This User Address is not found");
+
+            return mapper.Map<ShippingAddressDto>(user.Address);
         }
 
         public async Task<Result<UserDto>> LoginAsync(UserLoginDto loginDto)
@@ -82,6 +101,33 @@ namespace ECommerce.Service.Identity
                 };
 
             return isCreated.Errors.Select(E => Error.Validation( E.Code,E.Description)).ToList();
+        }
+
+        public async Task<Result<ShippingAddressDto>> UpdateUserAddressAsync(string email, ShippingAddressDto addressDto)
+        {
+            var user = await userManager.Users.Include(X => X.Address)
+               .FirstOrDefaultAsync(X => X.Email == email);
+
+            if (user is null)
+                return Error.NotFound("User.NotFount", $"This User with This Email: {email} is not found");
+
+           if (user.Address is not null)
+            {
+                user.Address.Street = addressDto.Street;
+                user.Address.City = addressDto.City;
+                user.Address.FirstName = addressDto.FirstName;
+                user.Address.LastName = addressDto.LastName;
+                user.Address.Country = addressDto.Country;
+                
+            }
+           else
+            {
+                mapper.Map<Address>(addressDto);
+            }
+           
+                await userManager.UpdateAsync(user);
+
+            return mapper.Map<ShippingAddressDto>(user.Address);
         }
 
         private async Task<string> GenerateToken(ApplicationUser user)

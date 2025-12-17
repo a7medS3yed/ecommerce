@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using ECommerce.Domain.Entities.BasketModule;
+using ECommerce.Domain.Entities.IdentityModule;
 using ECommerce.Domain.Entities.OrderModule;
 using ECommerce.Domain.Entities.ProductModule;
 using ECommerce.Shared.Dtos.Baskets;
@@ -60,6 +61,12 @@ namespace ECommerce.Service.Profiles
                     o => o.MapFrom<OrderPictureResolver>());
 
             CreateMap<DeliveryMethod, DeliveryMethodDto>();
+
+            #endregion
+
+            #region Mapping Identity Module
+
+            CreateMap<Address, ShippingAddressDto>().ReverseMap();
 
             #endregion
         }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ECommerce.Shared.CommenResponse;
 using ECommerce.Shared.Dtos.Identitys;
+using ECommerce.Shared.Dtos.Orders;
 
 namespace ECommerce.Service.Abstraction.Identity
 {
@@ -14,5 +15,7 @@ namespace ECommerce.Service.Abstraction.Identity
         Task<Result<UserDto>> LoginAsync(UserLoginDto loginDto);
         Task<bool> CheckEmailAsync(string email);
         Task<Result<UserDto>> GetCurrentUserAsync(string email);
+        Task<Result<ShippingAddressDto>> GetUserAddressAsync(string email);
+        Task<Result<ShippingAddressDto>> UpdateUserAddressAsync(string email, ShippingAddressDto addressDto);
     }
 }
