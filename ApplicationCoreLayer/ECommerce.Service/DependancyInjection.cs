@@ -8,11 +8,13 @@ using ECommerce.Service.Abstraction.Basket;
 using ECommerce.Service.Abstraction.Caches;
 using ECommerce.Service.Abstraction.Identity;
 using ECommerce.Service.Abstraction.Orders;
+using ECommerce.Service.Abstraction.Payment;
 using ECommerce.Service.Abstraction.Products;
 using ECommerce.Service.Baskets;
 using ECommerce.Service.Caches;
 using ECommerce.Service.Identity;
 using ECommerce.Service.Orders;
+using ECommerce.Service.Payment;
 using ECommerce.Service.Products;
 using ECommerce.Service.Profiles;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -38,6 +40,7 @@ namespace ECommerce.Service
             services.AddScoped<ICacheService, CacheService>();
             services.AddScoped<IAuthentication, Authentication>();
             services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IPaymentService, PaymentService>();
 
 
             services.AddAuthentication(options =>

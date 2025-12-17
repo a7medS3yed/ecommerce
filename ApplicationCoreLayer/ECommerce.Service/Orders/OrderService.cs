@@ -8,6 +8,7 @@ using ECommerce.Service.Specification.OrdersSpecification;
 using ECommerce.Shared.CommenResponse;
 using ECommerce.Shared.Dtos.Orders;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Stripe;
 using System;
 using System.Buffers.Text;
 using System.Collections;
@@ -17,6 +18,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Model;
+using Product = ECommerce.Domain.Entities.ProductModule.Product;
 
 namespace ECommerce.Service.Orders
 {
@@ -29,12 +31,15 @@ namespace ECommerce.Service.Orders
         public async Task<Result<OrderToReturnDto>> CreateOrderAsync(OrderDto orderDto, string buyerEmail)
         {
             //1. Maps the provided shipping address to the order address entity.
-            var orderAddress =  mapper.Map<ShippingAddress>(orderDto.AddressDto);
+            var orderAddress =  mapper.Map<ShippingAddress>(orderDto.ShipToAddress);
 
             //2. Retrieves the basket and validates its existence.
             var basket = await basketRepository.GetBasketAsync(orderDto.BasketId);
             if (basket is null)
                 return Error.NotFound("Basket.NotFound", "The specified basket was not found.");
+
+            if (basket.PaymentIntentId == null)
+                return Error.Validation("Payment Inetent is null");
 
             //3. Creates a list of order items by fetching product details from the database and validating each product.
             List<ItemOrder> orderItems = new List<ItemOrder>();
@@ -58,12 +63,21 @@ namespace ECommerce.Service.Orders
             //Calculates the subtotal of the order based on the items and their quantities.
             var subtotal = orderItems.Sum(item => item.Price * item.Quantity);
 
+            var spec = new OrderSpecificationWithPaymentInetnetId(basket.PaymentIntentId);
+
+            var orderExistWithThisPaymentId = await unitOfWork.GenaricRepository<Order, Guid>()
+                .GetByIdAsync(spec);
+
+            if (orderExistWithThisPaymentId is not null)
+                unitOfWork.GenaricRepository<Order, Guid>().DeleteAsync(orderExistWithThisPaymentId);
+
             //5. Creates a new Order with all relevant details.
             var order = new Order
             {
                 DeliveryMethodId = deliveryMethod.Id,
                 ShippingAddress = orderAddress,
                 Items = orderItems,
+                PaymentIntentId = basket.PaymentIntentId,
                 SubTotal = subtotal,
                 UserEmail = buyerEmail
             };

@@ -12,6 +12,7 @@ namespace ECommerce.Domain.Entities.OrderModule
         public DateTimeOffset OrderDate { get; set; } = DateTimeOffset.Now;
         public ICollection<ItemOrder> Items { get; set; } = [];
         public OrderStatus Status { get; set; } = OrderStatus.Pending;
+        public string PaymentIntentId { get; set; } = default!;
         public ShippingAddress ShippingAddress { get; set; } = default!;
         public DeliveryMethod DeliveryMethod { get; set; } = default!;
         public int DeliveryMethodId { get; set; } // FK
