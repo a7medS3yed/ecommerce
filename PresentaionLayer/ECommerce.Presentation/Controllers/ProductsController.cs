@@ -13,11 +13,10 @@ using Microsoft.AspNetCore.Mvc;
 namespace ECommerce.Presentation.Controllers
 {
    
-    public class ProductController(IProductService productService) : ApiBaseController
+    public class ProductsController(IProductService productService) : ApiBaseController
     {
         
         [HttpGet]
-        [Authorize]
         [RedisCahce]
         public async Task<ActionResult<PaginationResult<ProductDto>>> GetAllProducts(
            [FromQuery] ProductQueryParam queryParam)

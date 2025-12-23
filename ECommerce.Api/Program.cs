@@ -26,6 +26,17 @@ namespace ECommerce.Api
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("DevelopmentPolicy", policy =>
+                {
+                    policy
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowAnyOrigin();
+                });
+            });
+
             builder.Services.AddPersistanceServices(builder.Configuration);
             builder.Services.AddServiceLayer(builder.Configuration);
             builder.Services.Configure<ApiBehaviorOptions>(options =>
@@ -55,6 +66,7 @@ namespace ECommerce.Api
             app.UseStaticFiles();
 
             app.UseHttpsRedirection();
+            app.UseCors("DevelopmentPolicy");
 
             app.UseAuthentication();
             app.UseAuthorization();
