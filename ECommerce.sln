@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.13.35919.96 d17.13
+# Visual Studio Version 18
+VisualStudioVersion = 18.1.11304.174 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerce.Api", "ECommerce.Api\ECommerce.Api.csproj", "{D9E0BD19-8982-4D2D-9DFE-F4213F5E9D71}"
 EndProject
@@ -22,6 +22,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerce.Presentation", "PresentaionLayer\ECommerce.Presentation\ECommerce.Presentation.csproj", "{7CFABC23-F7C8-46AC-981D-EBBEE0DA0B64}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerce.Shared", "ECommerce.Shared\ECommerce.Shared.csproj", "{C212DA85-ADB4-4ED1-AF40-3D7BFE338749}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UiLayer", "UiLayer", "{F1A42FE8-830C-4B06-8AAA-0A04A9296448}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AdminDashbord", "AdminDashbord", "{2FFCD3BC-630B-4BE5-9813-6B1BC321C9FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Admin.Dashbord", "Admin.Dashbord\Admin.Dashbord.csproj", "{7D09E8E4-0965-41AA-8173-E998168E2326}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +63,10 @@ Global
 		{C212DA85-ADB4-4ED1-AF40-3D7BFE338749}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C212DA85-ADB4-4ED1-AF40-3D7BFE338749}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C212DA85-ADB4-4ED1-AF40-3D7BFE338749}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D09E8E4-0965-41AA-8173-E998168E2326}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D09E8E4-0965-41AA-8173-E998168E2326}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D09E8E4-0965-41AA-8173-E998168E2326}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D09E8E4-0965-41AA-8173-E998168E2326}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -68,6 +78,8 @@ Global
 		{EACC759F-2575-45DA-A431-62AA4A4E319B} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{EAFC4EB4-B75E-4249-9F83-EE048C978CC4} = {8C5871BB-E23A-4140-BB32-3787FE9AF9BF}
 		{7CFABC23-F7C8-46AC-981D-EBBEE0DA0B64} = {1F194C4F-D81A-4B5F-AD0B-420B9C6551E3}
+		{2FFCD3BC-630B-4BE5-9813-6B1BC321C9FE} = {F1A42FE8-830C-4B06-8AAA-0A04A9296448}
+		{7D09E8E4-0965-41AA-8173-E998168E2326} = {2FFCD3BC-630B-4BE5-9813-6B1BC321C9FE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A0E90BBB-4E06-4F0F-B789-7B99AEF90343}

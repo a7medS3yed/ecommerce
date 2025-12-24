@@ -8,7 +8,7 @@ using ECommerce.Shared;
 
 namespace ECommerce.Service.Specification.ProductsSpecification
 {
-    internal class ProductsWithTypesAndBrandsSpecification : BaseSpecification<Product, int>
+    public class ProductsWithTypesAndBrandsSpecification : BaseSpecification<Product, int>
     {
        
         public ProductsWithTypesAndBrandsSpecification(ProductQueryParam queryParam)

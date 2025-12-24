@@ -10,7 +10,7 @@ using ECommerce.Persistance.Data;
 
 namespace ECommerce.Persistance.UnitOfWork
 {
-    internal class UnitOfWork(StoreDbContext dbContext) : IUnitOfWork
+    public class UnitOfWork(StoreDbContext dbContext) : IUnitOfWork
     {
         private readonly ConcurrentDictionary<string, object> _repositories = new();
         public IGenaricRepository<TModel, TKey> GenaricRepository<TModel, TKey>() where TModel : BaseEntity<TKey>
