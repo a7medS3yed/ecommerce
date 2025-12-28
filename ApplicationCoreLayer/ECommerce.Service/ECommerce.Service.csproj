@@ -11,4 +11,11 @@
     <ProjectReference Include="..\ECommerce.Service.Abstraction\ECommerce.Service.Abstraction.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="14.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.22" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.10" />
+    <PackageReference Include="Stripe.net" Version="50.1.0" />
+  </ItemGroup>
+
 </Project>
